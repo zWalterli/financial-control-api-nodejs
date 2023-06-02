@@ -1,9 +1,17 @@
 const express = require("express");
 const app = express();
-const todoRoutes = require('./router/todoRoutes');
+const investmentRoutes = require('./router/investmentRoutes');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
-app.use(express.json());
+app.use(bodyParser.json());
 
-app.use('/api/todo', todoRoutes)
+// Routes
+app.use('/api/investment', investmentRoutes);
+
+// Connect to MongoDb
+mongoose.connect('mongodb+srv://admin:admin@investment-db.s7aizgb.mongodb.net/?retryWrites=true&w=majority');
+mongoose.connection.on('connected', () => console.log('Connected to Database!'));
+mongoose.connection.on('error', (err) => console.log(`Database error: ${err}`));
 
 module.exports = app;
